@@ -65,19 +65,19 @@ docker-compose down
 source .venv/bin/activate  # Для Linux/Mac
 ```
 
-#### Установите pytest, если его нет
+#### Установите pytest, если его нет:
 
 ```bash
 pip install pytest
 ```
 
-#### Запуск всех тестов
+#### Запуск всех тестов:
 
 ```bash
 python -m pytest
 ```
 
-#### Запуск с отображением подробного вывода
+#### Запуск с отображением подробного вывода:
 
 ```bash
 python -m pytest -v
@@ -88,7 +88,7 @@ python -m pytest -v
 docker-compose run --rm app pytest
 ```
 
-#### Запуск с подробным выводом
+#### Запуск с подробным выводом:
 ```bash
 docker-compose run --rm app pytest -v
 ```
