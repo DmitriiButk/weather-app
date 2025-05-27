@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Прогноз погоды для города {{ weather.city }}</h1>
+
+    <div class="weather-card current">
+        <h2>Текущая погода</h2>
+        <div class="weather-info">
+            <div class="temperature">{{ weather.current.temperature_2m }}°C</div>
+            <div class="details">
+                <p>Ощущается как: {{ weather.current.apparent_temperature }}°C</p>
+                <p>Влажность: {{ weather.current.relative_humidity_2m }}%</p>
+                <p>Осадки: {{ weather.current.precipitation }} мм</p>
+                <p>Скорость ветра: {{ weather.current.wind_speed_10m }} км/ч</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="weather-card hourly">
+        <h2>Прогноз на 24 часа</h2>
+        <div class="hourly-forecast">
+            {% for time, temp, prec_prob, weather_code in weather.hourly %}
+            <div class="hour-item">
+                <div class="time">{{ time[-5:] }}</div>
+                <div class="temp">{{ temp }}°C</div>
+                <div class="prec">{{ prec_prob }}%</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="links">
+        <a href="/" class="button">Вернуться на главную</a>
+        <a href="/history" class="button">История поиска</a>
+    </div>
+</div>
+</body>
+</html>

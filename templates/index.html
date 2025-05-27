@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Узнайте погоду в любом городе</h1>
+    <form action="/weather" method="post">
+        <div class="search-box">
+            <input type="text" name="city" id="city-input" placeholder="Введите название города" autocomplete="off"
+                   required>
+            <div id="suggestions" class="suggestions"></div>
+        </div>
+        <button type="submit">Узнать погоду</button>
+    </form>
+
+    {% if last_search %}
+    <div class="last-search">
+        <p>Вы недавно смотрели погоду в городе:
+        <form action="/weather" method="post" style="display:inline;">
+            <input type="hidden" name="city" value="{{ last_search }}">
+            <button type="submit" class="link-button">{{ last_search }}</button>
+        </form>
+        </p>
+    </div>
+    {% endif %}
+
+    <div class="links">
+        <a href="/history">История поиска</a>
+        <a href="/api/stats">Статистика запросов</a>
+    </div>
+</div>
+
+<script>
+    const input = document.getElementById('city-input');
+    const suggestions = document.getElementById('suggestions');
+
+    input.addEventListener('input', async () => {
+        const query = input.value.trim();
+        if (query.length < 2) {
+            suggestions.innerHTML = '';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/cities?q=${encodeURIComponent(query)}`);
+            const cities = await response.json();
+
+            suggestions.innerHTML = '';
+            cities.forEach(city => {
+                const div = document.createElement('div');
+                div.textContent = city;
+                div.addEventListener('click', () => {
+                    input.value = city;
+                    suggestions.innerHTML = '';
+                });
+                suggestions.appendChild(div);
+            });
+        } catch (error) {
+            console.error('Ошибка при получении городов:', error);
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (e.target !== input) {
+            suggestions.innerHTML = '';
+        }
+    });
+</script>
+</body>
+</html>

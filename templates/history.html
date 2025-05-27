@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История поиска погоды</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>История поиска погоды</h1>
+
+    {% if history %}
+    <div class="history-list">
+        <table>
+            <thead>
+            <tr>
+                <th>Город</th>
+                <th>Время запроса</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in history %}
+            <tr>
+                <td>{{ item.city }}</td>
+                <td>{{ item.time }}</td>
+                <td>
+                    <form action="/weather" method="post" style="margin: 0;">
+                        <input type="hidden" name="city" value="{{ item.city }}">
+                        <button type="submit" class="link-button">Обновить прогноз</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-history">
+        <p>У вас пока нет истории поиска погоды.</p>
+    </div>
+    {% endif %}
+
+    <div class="links">
+        <a href="/" class="button">Вернуться на главную</a>
+    </div>
+</div>
+</body>
+</html>
