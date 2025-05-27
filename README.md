@@ -54,3 +54,41 @@ docker-compose down
 **Доступ к приложению**
 
 После запуска приложение будет доступно по адресу [http://localhost:8000](http://localhost:8000)
+
+## Запуск тестов:
+
+#### Локальный запуск тестов:
+
+```bash
+# Активируйте виртуальное окружение
+.venv\Scripts\activate  # Для Windows
+source .venv/bin/activate  # Для Linux/Mac
+```
+
+#### Установите pytest, если его нет
+
+```bash
+pip install pytest
+```
+
+#### Запуск всех тестов
+
+```bash
+python -m pytest
+```
+
+#### Запуск с отображением подробного вывода
+
+```bash
+python -m pytest -v
+```
+
+### Запуск тестов в Docker:
+```bash
+docker-compose run --rm app pytest
+```
+
+#### Запуск с подробным выводом
+```bash
+docker-compose run --rm app pytest -v
+```
